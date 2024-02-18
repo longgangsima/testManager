@@ -1,0 +1,10 @@
+/* purgecss start ignore */
+@tailwind base;
+@tailwind components;
+/* purgecss end ignore */
+@tailwind utilities;
+
+/*
+Finally, we have to select the base and components styles and mark them as positive, so that Purgecss doesn’t remove them.
+
+Here, we can use a comment to mark them positive in both the sections at the same time. */
