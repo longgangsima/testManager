@@ -1,52 +1,48 @@
+// components/Calendar.tsx
+import { addDays, endOfMonth, endOfWeek, format, startOfMonth, startOfWeek } from 'date-fns';
 import { useState } from 'react';
-
-import dateFns from 'date-fns';
 import CeldanrDay from './day';
-
-import { addDays, addMonths, endOfMonth, endOfWeek, format, startOfMonth, startOfWeek, subMonths } from 'date-fns';
+import CaendarHeader from './header';
 
 const Calendar = () => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
-  const [selectedDate, setSelectedDate] = useState(new Date());
 
-  console.log('dateFns: ', dateFns);
-
-  const renderHeader = () => {
-    const dateFormat = 'mm/dd/yyyy';
-    console.log('format(currentMonth, dateFormat): ', format(currentMonth, dateFormat));
-    console.log('currentMonth: ', currentMonth);
-    return (
-      <div className=" header row flex-middle">
-        <div className="col col-start">
-          <div className="icon" onClick={prevMonth}>
-            chevron_left
-          </div>
-        </div>
-        <div className="col col-center">
-          <span>{format(currentMonth, dateFormat)}</span>
-        </div>
-        <div className="col col-end" onClick={nextMonth}>
-          <div className="icon">chevron_right</div>
-        </div>
+  const buttonClass = 'border border-yellow-100 px-2 py-1 rounded-md bg-yellow-100 hover:bg-yellow-200';
+  const renderHeader = () => (
+    <div className="flex justify-between items-center p-4 border border-yellow-100">
+      <h2>{format(currentMonth, 'MMMM yyyy')}</h2>
+      <div className="grid grid-cols-3 px-2 mx-2">
+        <button className={buttonClass} onClick={() => setCurrentMonth(addDays(currentMonth, -1))}>
+          Prev
+        </button>
+        <button className={buttonClass} onClick={() => setCurrentMonth(new Date())}>
+          Today
+        </button>
+        <button className={buttonClass} onClick={() => setCurrentMonth(addDays(currentMonth, 1))}>
+          Next
+        </button>
       </div>
-    );
-  };
+    </div>
+  );
 
-  const renderDays = () => {
-    const dateFormat = 'dddd';
+  const renderDaysOfWeek = () => {
+    const dateFormat = 'EEE';
     const days = [];
 
     let startDate = startOfWeek(currentMonth);
 
     for (let i = 0; i < 7; i++) {
       days.push(
-        <div className="col col-center" key={i}>
+        <div className="col-span-1 px-2 py-2" key={i}>
           {format(addDays(startDate, i), dateFormat)}
         </div>
       );
     }
 
-    return <div className="days row">{days}</div>;
+    return <div className="grid grid-cols-7">{days}</div>;
+  };
+  const onDateClick = (day: Date) => {
+    console.log('Clicked date', day);
   };
 
   const renderCells = () => {
@@ -62,50 +58,38 @@ const Calendar = () => {
     let day = startDate;
     let formattedDate = '';
 
+    const selectedDate = new Date();
+
     while (day <= endDate) {
       for (let i = 0; i < 7; i++) {
         formattedDate = format(day, dateFormat);
         const cloneDay = day;
         days.push(
           <CeldanrDay
-            {...{
-              cloneDay,
-              onDateClick,
-              selectedDate,
-              monthStart,
-              formattedDate,
-            }}
+            cloneDay={cloneDay}
+            onDateClick={onDateClick}
+            selectedDate={selectedDate}
+            monthStart={monthStart}
+            formattedDate={formattedDate}
           />
         );
         day = addDays(day, 1);
       }
       rows.push(
-        <div className="row" key={day.toDateString()}>
+        <div className="grid grid-cols-7 px-2 mx-2" key={day.toString()}>
           {days}
         </div>
       );
       days = [];
     }
-    return <div className="body">{rows}</div>;
+    return <div className="flex flex-col">{rows}</div>;
   };
-
-  const onDateClick = day => {
-    setSelectedDate(day);
-  };
-
-  const nextMonth = () => {
-    setCurrentMonth(addMonths(currentMonth, 1));
-  };
-
-  const prevMonth = () => {
-    setCurrentMonth(subMonths(currentMonth, 1));
-  };
-  //create a popout window, and add an Arrow on one side of the border to point to the item
 
   return (
-    <div className="calendar flex flex-col flex-1">
+    <div className="flex flex-col flex-1 bg-gray-200 border border-[red] left-20 right-0">
       {renderHeader()}
-      {renderDays()}
+      <CaendarHeader />
+      {renderDaysOfWeek()}
       {renderCells()}
     </div>
   );
