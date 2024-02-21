@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 const { Header } = Layout;
 const { Option } = Select;
 
-const CaendarHeader: React.FC = () => {
+const CalendarHeader: React.FC = () => {
   const [isSearchMode, setIsSearchMode] = useState(false);
   const [selectedView, setSelectedView] = useState('month');
 
@@ -81,4 +81,4 @@ const CaendarHeader: React.FC = () => {
   );
 };
 
-export default CaendarHeader;
+export default CalendarHeader;
