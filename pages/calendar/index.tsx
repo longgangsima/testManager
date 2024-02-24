@@ -1,5 +1,5 @@
 import Layout from '../../components/Layout';
-import Calendar from '../../components/calendar/testCom';
+import Calendar from '../../components/calendar';
 
 const CalendarPage = () => {
   return (

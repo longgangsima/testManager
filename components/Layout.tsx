@@ -20,7 +20,7 @@ const Layout = ({ children, title = 'This is the default title', hasTitle = fals
       {/* </aside> */}
 
       {/* Main content area */}
-      <div className="flex flex-col flex-auto border-6 border-gray-200">
+      <div className="flex flex-col flex-auto border-6 border-gray-200 h-full">
         {/* This Header will not display but rather the title of this web app */}
         <Head>
           <title>{title}</title>
@@ -31,17 +31,17 @@ const Layout = ({ children, title = 'This is the default title', hasTitle = fals
         {/* Title */}
         {/* has two Headers: 1: is must have*/}
 
-        <header>
+        {/* <header>
           <h1>{title}</h1>
-        </header>
+        </header> */}
 
         {/*2: one is optional based on the page you are right now: hasTitle*/}
 
-        {hasTitle ? (
+        {/* {hasTitle ? (
           <header>
             <h1>{title}</h1>
           </header>
-        ) : null}
+        ) : null} */}
 
         {/* Page content */}
         {children}
